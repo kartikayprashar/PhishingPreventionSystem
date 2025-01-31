@@ -30,13 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example Reported Email Entry -->
-                    <tr>
-                        <td>example@example.com</td>
-                        <td>Suspicious Account Activity</td>
-                        <td>2025-01-25</td>
-                    </tr>
-                    <!-- More emails will be dynamically populated from JS -->
+                    <!-- Emails will be dynamically populated from JS -->
                 </tbody>
             </table>
         </div>
@@ -56,10 +50,20 @@
 
     <script>
         // Fetch reported phishing emails from the server
-        fetch('/phishing-emails')
-            .then(response => response.json())
+        fetch('http://localhost:3000/phishing-emails')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 const tableBody = document.querySelector('table tbody');
+
+                // Clear any existing rows (if needed)
+                tableBody.innerHTML = '';
+
+                // Populate the table with data
                 data.forEach(email => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -72,6 +76,15 @@
             })
             .catch(err => {
                 console.error("Error fetching reported phishing emails:", err);
+                // Display an error message to the user
+                const tableBody = document.querySelector('table tbody');
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="color: red; text-align: center;">
+                            Failed to load phishing emails. Please try again later.
+                        </td>
+                    </tr>
+                `;
             });
     </script>
 </body>

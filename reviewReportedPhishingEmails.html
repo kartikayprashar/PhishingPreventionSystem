@@ -27,6 +27,7 @@
                         <th>From</th>
                         <th>Subject</th>
                         <th>Received</th>
+                        <th>Email Image</th> <!-- New column for the image -->
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +59,8 @@
                 return response.json();
             })
             .then(data => {
+                console.log("Data received from server:", data); // Log the data for debugging
+
                 const tableBody = document.querySelector('table tbody');
 
                 tableBody.innerHTML = '';
@@ -69,6 +72,14 @@
                         <td>${email.sender}</td>
                         <td>${email.subject}</td>
                         <td>${email.received}</td>
+                        <td>
+                            ${email.image ? 
+                                `<a href="${email.image}" target="_blank">
+                                    <img src="${email.image}" alt="Email Image" style="width: 100px; height: auto;">
+                                </a>` 
+                                : 'No Image'
+                            }
+                        </td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -79,7 +90,7 @@
                 const tableBody = document.querySelector('table tbody');
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="3" style="color: red; text-align: center;">
+                        <td colspan="4" style="color: red; text-align: center;">
                             Failed to load phishing emails. Please try again later.
                         </td>
                     </tr>

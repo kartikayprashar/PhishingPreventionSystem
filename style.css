@@ -1,0 +1,97 @@
+/* .company-header {
+    display: flex;
+    color: #142850;
+} */
+
+.logo img {
+    width: 300px;
+    padding: 20px;
+}
+
+.company-name {
+    height: 50%;
+    width: 100%;
+    background-color: #38414d;
+    color: #FFFFFF;
+    padding-top: 1%;
+    padding-left: 1%;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.pps {
+    text-align: center;
+    padding: 3%;
+    border-bottom: 5px solid #38414d;
+}
+
+
+/* -------------------------------------------- */
+
+h1, h2 {
+    text-align: center;
+}
+
+/* Table Styling */
+.phishing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    text-align: left;
+}
+
+.phishing-table th, .phishing-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+.phishing-table th {
+    background-color: #38414d;
+    color: #ffffff;
+}
+
+.phishing-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.phishing-table tr:hover {
+    background-color: #ddd;
+}
+
+#submit {
+    margin-top: 25px;
+}
+
+label {
+    padding: 10px;
+}
+
+/* -------------------------------------------- */
+
+/* Footer Styling */
+.footer-links {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 0.9em;
+}
+
+.footer-links a {
+    color: #38414d;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.footer-logo img {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}

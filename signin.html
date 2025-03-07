@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Canada Revenue Agency</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
 </head>
 <body>
     <header class="company-header">
         <div class="logo">
-            <a href="index.html"><img src="Images/GOCLogo.png" alt="GOCLogo"></a>
+            <a href="index.html"><img src="Images/GOCLogo.png" alt="GOCLogo"></a> <!-- Link to the logo -->
         </div>
         <div class="company-name">
             Canada Revenue Agency
@@ -28,7 +28,7 @@
                 <br>
                 <button type="submit">Sign In</button>
             </form>
-            <p id="error-message" style="color: red;"></p>
+            <p id="error-message" style="color: red;"></p> <!-- Error message placeholder -->
         </div>
     </main>
 
@@ -37,34 +37,41 @@
             <a href="#">Terms and Conditions</a> | <a href="#">Privacy</a>
         </div>
         <div class="footer-logo">
-            <a href="index.html"><img src="Images/CanadaLogo.jpg" alt="Canada Logo"></a>
+            <a href="index.html"><img src="Images/CanadaLogo.jpg" alt="Canada Logo"></a> <!-- Link to the logo -->
         </div>
     </footer>
 
     <script>
+        // Handle form submission
         document.getElementById("signin-form").addEventListener("submit", async function (event) {
             event.preventDefault(); // Prevent the form from submitting normally
 
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            const response = await fetch("http://localhost:3000/signin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
+            try {
+                const response = await fetch("http://localhost:3000/signin", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
 
-            if (response.ok) {
                 const result = await response.json();
-                if (result.error === "invalid_user") {
-                    document.getElementById("error-message").textContent = "Invalid username.";
-                } else if (result.error === "invalid_password") {
-                    document.getElementById("error-message").textContent = "Invalid password.";
+
+                if (response.ok) {
+                    if (result.error === "invalid_user") {
+                        document.getElementById("error-message").textContent = "Invalid username.";
+                    } else if (result.error === "invalid_password") {
+                        document.getElementById("error-message").textContent = "Invalid password.";
+                    } else {
+                        alert("Sign-in successful!");
+                        window.location.href = "overview.html"; // Redirect to overview.html
+                    }
                 } else {
-                    alert("Sign-in successful!");
-                    window.location.href = "overview.html"; // Redirect to overview.html
+                    document.getElementById("error-message").textContent = "An error occurred. Please try again later.";
                 }
-            } else {
+            } catch (error) {
+                console.error("Error during sign-in:", error);
                 document.getElementById("error-message").textContent = "An error occurred. Please try again later.";
             }
         });

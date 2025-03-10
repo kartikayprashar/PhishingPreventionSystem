@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department of Phishing Prevention</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="company-header">
+        <div class="logo">
+            <a href="index.html"><img src="Images/GOCLogo.png" alt="GOC Logo"></a>
+        </div>
+        <div class="company-name">
+            Department of Phishing Prevention
+        </div>
+    </header>
+
+    <main>
+        <div class="rectangle">
+            <div class="pps"><h1>Phishing Prevention System (PPS)</h1></div>
+            <h2>Generate Reports</h2>
+
+            <table class="phishing-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>This feature allows the CRA IT Security Team 
+                            to create detailed summaries of phishing-related 
+                            activity within the organization. This includes 
+                            information such as the number of phishing emails 
+                            reported by employees, the detection accuracy of 
+                            the phishing prevention system and patterns in 
+                            phishing attempts over time. Users can select 
+                            specific date ranges and report type.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Report Year</h3>
+            <div class="dd1">
+                <select id="reportYear">
+                    <option value="">Select Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+
+            <h3>Report Type</h3>
+            <div class="dd2">
+                <select id="reportType">
+                    <option value="">Select Type</option>
+                    <option value="employee_activity">Employee Reporting Activity</option>
+                    <option value="detection_logs">Phishing Detection Logs</option>
+                </select>
+            </div>
+            
+            <button id="submit">Generate Report</button>
+
+            <p>For more information on how your privacy is protected, refer to our <a href="#">Personal Information Collection Statement</a>.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="pps"></div>
+        <div class="footer-links">
+            <a href="#">Terms and Conditions</a> | <a href="#">Privacy</a>
+        </div>
+        <div class="footer-logo">
+            <a href="index.html"><img src="Images/CanadaLogo.jpg" alt="Canada Logo"></a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('submit').addEventListener('click', function() {
+            // Get the selected values for year and type
+            const year = document.getElementById('reportYear').value;
+            const type = document.getElementById('reportType').value;
+
+            // Check if both fields are selected
+            if (year && type) {
+                // Make a request to the server to generate and download the report
+                fetch('/generate-report', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ year, type }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.blob();
+                    } else {
+                        return response.json().then(error => {
+                            throw new Error(error.error || 'Error generating report');
+                        });
+                    }
+                })
+                .then(blob => {
+                    // Create a link to download the file
+                    const link = document.createElement('a');
+                    const url = window.URL.createObjectURL(blob);
+                    link.href = url;
+                    link.download = `${year}_${type}_report.xlsx`; // Download the file with the proper name
+                    link.click();
+                    window.URL.revokeObjectURL(url); // Clean up the URL object
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+            } else {
+                alert('Please select both a year and report type.');
+            }
+        });
+    </script>
+</body>
+</html>

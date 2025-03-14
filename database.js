@@ -81,6 +81,17 @@ db.serialize(() => {
         )
     `);
 
+    // Create the resources table
+    db.run(`
+        CREATE TABLE IF NOT EXISTS resources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            resource_name TEXT,
+            category TEXT,
+            website_link TEXT,
+            published TEXT
+        )
+    `);
+
     // Function to insert email data with duplicate check
     const insertEmail = (email) => {
         const { sender, subject, received } = email;
@@ -131,6 +142,31 @@ db.serialize(() => {
         });
     };
 
+    // Function to insert training resources with duplicate check
+    const insertResource = (resource) => {
+        const { resource_name, category, website_link, published } = resource;
+
+        db.get("SELECT * FROM resources WHERE resource_name = ? AND website_link = ?", [resource_name, website_link], (err, row) => {
+            if (err) {
+                console.error("Error checking for duplicate:", err);
+                return;
+            }
+
+            if (row) {
+                console.log("Duplicate resource detected. Skipping insert.");
+            } else {
+                const query = "INSERT INTO resources (resource_name, category, website_link, published) VALUES (?, ?, ?, ?)";
+                db.run(query, [resource_name, category, website_link, published], (err) => {
+                    if (err) {
+                        console.error("Error inserting resource:", err);
+                    } else {
+                        console.log(`Resource ${resource_name} inserted successfully.`);
+                    }
+                });
+            }
+        });
+    };
+
     const regularEmails = [
         { sender: "John Doe", subject: "Meeting Tomorrow", received: "2025-01-01 9:00 AM" },
         { sender: "Jane Smith", subject: "Project Update", received: "2025-01-01 10:15 AM" },
@@ -142,8 +178,16 @@ db.serialize(() => {
         { sender: "scam@example.com", subject: "You’ve Won a Prize!", received: "2023-10-02" }
     ];
 
+    const trainingResources = [
+        { resource_name: "Reporting Phishing Emails to IT", category: "Training", website_link: "http://localhost:3000/Resources/reporting-phishing-emails-to-it.pdf", published: "2023-10-01" },
+        { resource_name: "Securing your Passwords", category: "Training", website_link: "http://localhost:3000/Resources/securing-your-passwords.pdf", published: "2023-10-01" },
+        { resource_name: "Email Security Video", category: "Training", website_link: "http://localhost:3000/Resources/email-security.mp4", published: "2023-10-02" },
+        { resource_name: "Phishing Infographic", category: "Training", website_link: "http://localhost:3000/Resources/infographic.png", published: "2023-10-03" }
+    ];
+
     regularEmails.forEach(insertEmail);
     reviewedEmails.forEach(insertReviewedEmail);
+    trainingResources.forEach(insertResource);
 });
 
 // Export the database object

@@ -62,13 +62,7 @@ app.post('/signin', (req, res) => {
 app.get('/phishing-emails', (req, res) => {
     db.all("SELECT * FROM reviewed_phishing_emails", [], (err, rows) => {
         if (err) return res.status(500).json({ error: "internal_error" });
-        
-        const emailsWithImages = rows.map(email => ({
-            ...email,
-            image: email.image ? `http://localhost:3000/Images/emails/${email.image}` : null,
-        }));
-
-        res.status(200).json(emailsWithImages);
+        res.status(200).json(rows);
     });
 });
 
@@ -94,18 +88,14 @@ app.post('/report-email', (req, res) => {
 
 // Fetch training resources
 app.get('/resources', (req, res) => {
-    const resources = [
-        { resource_name: "Reporting Phishing Emails to IT", category: "Training", website_link: "http://localhost:3000/Resources/reporting-phishing-emails-to-it.pdf", published: "2023-10-01" },
-        { resource_name: "Securing your Passwords", category: "Training", website_link: "http://localhost:3000/Resources/securing-your-passwords.pdf", published: "2023-10-01" },
-        { resource_name: "Email Security Video", category: "Training", website_link: "http://localhost:3000/Resources/email-security.mp4", published: "2023-10-02" },
-        { resource_name: "Phishing Infographic", category: "Training", website_link: "http://localhost:3000/Resources/infographic.png", published: "2023-10-03" }
-    ];
-    res.status(200).json(resources);
+    db.all("SELECT * FROM resources", [], (err, rows) => {
+        if (err) return res.status(500).json({ error: "internal_error" });
+        res.status(200).json(rows);
+    });
 });
 
 // Generate and download reports
 app.post('/generate-report', async (req, res) => {
-    console.log("Request Body:", req.body); // Debugging line
     const { year, type } = req.body;
 
     // Validate input
@@ -118,23 +108,18 @@ app.post('/generate-report', async (req, res) => {
 
     // Determine which data to fetch based on type
     if (type === "employee_activity") {
-        // Fetch data from reviewed_phishing_emails table
         query = "SELECT sender, subject, received FROM reviewed_phishing_emails WHERE strftime('%Y', received) = ?";
     } else if (type === "detection_logs") {
-        // Fetch data from logs table
         query = "SELECT date, description, status FROM logs WHERE strftime('%Y', date) = ?";
     } else {
         return res.status(400).json({ error: "Invalid report type" });
     }
 
     db.all(query, params, async (err, rows) => {
-        console.log("Executing Query:", query, params); // Debugging line
         if (err) {
-            console.error("Database Error:", err); // Debugging line
+            console.error("Database Error:", err);
             return res.status(500).json({ error: "Database error" });
         }
-
-        console.log("Fetched Rows:", rows); // Debugging line
 
         if (rows.length === 0) {
             return res.status(404).json({ error: "No data found for this report" });

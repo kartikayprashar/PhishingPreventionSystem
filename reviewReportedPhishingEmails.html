@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Phishing Prevention System</title>
+=======
+    <title>Reported Phishing Emails</title>
+>>>>>>> GenerateReports
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,21 +16,32 @@
             <a href="index.html"><img src="Images/GOCLogo.png" alt="GOC Logo"></a>
         </div>
         <div class="company-name">
+<<<<<<< HEAD
             Canada Revenue Agency
+=======
+            Department of Phishing Prevention
+>>>>>>> GenerateReports
         </div>
     </header>
 
     <main>
         <div class="rectangle">
+<<<<<<< HEAD
             <div class="pps"><h1>Phishing Prevention System (PPS)</h1></div>
             <h2>Review Reported Phishing Emails</h2>
 
             <table class="phishing-table">
+=======
+            <div class="pps"><h1>Reported Phishing Emails</h1></div>
+
+            <table class="phishing-table" id="email-table">
+>>>>>>> GenerateReports
                 <thead>
                     <tr>
                         <th>From</th>
                         <th>Subject</th>
                         <th>Received</th>
+<<<<<<< HEAD
                     </tr>
                 </thead>
                 <tbody>
@@ -59,10 +74,20 @@
             </table>
 
             <p>For more information on how your privacy is protected, refer to our <a href="#">Personal Information Collection Statement</a>.</p>
+=======
+                        <th>Email Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here by JavaScript -->
+                </tbody>
+            </table>
+>>>>>>> GenerateReports
         </div>
     </main>
 
     <footer>
+<<<<<<< HEAD
 
         <div class="pps"></div>
 
@@ -71,9 +96,63 @@
         </div>
 
 
+=======
+        <div class="footer-links">
+            <a href="#">Terms and Conditions</a> | <a href="#">Privacy</a>
+        </div>
+>>>>>>> GenerateReports
         <div class="footer-logo">
             <a href="index.html"><img src="Images/CanadaLogo.jpg" alt="Canada Logo"></a>
         </div>
     </footer>
+<<<<<<< HEAD
 </body>
 </html>
+=======
+
+    <script>
+        fetch('http://localhost:3000/phishing-emails')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received from server:", data);
+                const tableBody = document.querySelector("#email-table tbody");
+                tableBody.innerHTML = '';
+                data.forEach(email => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${email.sender}</td>
+                        <td>${email.subject}</td>
+                        <td>${email.received}</td>
+                        <td>
+                            ${email.image ? `
+                                <a href="${email.image}" target="_blank">
+                                    <img src="${email.image}" alt="Email Image" style="width: 150px; height: auto;">
+                                </a>
+                                <br>
+                                <a href="${email.image}" target="_blank">View image here</a>
+                            ` : 'No Image'}
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(err => {
+                console.error("Error fetching reported phishing emails:", err);
+                const tableBody = document.querySelector("#email-table tbody");
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="color: red; text-align: center;">
+                            Failed to load phishing emails. Please try again later.
+                        </td>
+                    </tr>
+                `;
+            });
+    </script>
+</body>
+</html>
+>>>>>>> GenerateReports

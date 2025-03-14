@@ -4,11 +4,29 @@
 } */
 
 .logo img {
+<<<<<<< HEAD
     width: 300px;
     padding: 20px;
 }
 
 .company-name {
+=======
+    width: 400px;
+    padding: 20px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically if needed */
+    width: 100%;
+    text-align: center;
+}
+
+.company-name {
+    display: inline-block; /* Ensure the text behaves like an inline element */
+    padding-bottom: 15px; /* Adjust the value as needed */
+>>>>>>> GenerateReports
     height: 50%;
     width: 100%;
     background-color: #38414d;
@@ -59,6 +77,15 @@ h1, h2 {
     background-color: #ddd;
 }
 
+<<<<<<< HEAD
+=======
+#submit {
+    margin-top: 25px;
+}
+
+/* -------------------------------------------- */
+
+>>>>>>> GenerateReports
 /* Footer Styling */
 .footer-links {
     text-align: center;
@@ -80,7 +107,11 @@ h1, h2 {
 }
 
 .footer-logo img {
+<<<<<<< HEAD
     width: 150px;
+=======
+    width: 200px;
+>>>>>>> GenerateReports
     height: auto;
     display: block;
     margin: 0 auto;

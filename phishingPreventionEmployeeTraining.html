@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Phishing Prevention System</title>
+=======
+    <title>Employee Training</title>
+>>>>>>> GenerateReports
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +16,11 @@
             <a href="index.html"><img src="Images/GOCLogo.png" alt="GOC Logo"></a>
         </div>
         <div class="company-name">
+<<<<<<< HEAD
             Canada Revenue Agency
+=======
+            Department of Phishing Prevention
+>>>>>>> GenerateReports
         </div>
     </header>
 
@@ -21,11 +29,16 @@
             <div class="pps"><h1>Phishing Prevention System (PPS)</h1></div>
             <h2>Employee Training</h2>
 
+<<<<<<< HEAD
             <table class="phishing-table">
+=======
+            <table class="phishing-table" id="resources-table">
+>>>>>>> GenerateReports
                 <thead>
                     <tr>
                         <th>Resource</th>
                         <th>Category</th>
+<<<<<<< HEAD
                         <th>Published</th>
                     </tr>
                 </thead>
@@ -50,14 +63,34 @@
                         <td>Step-by-Step Guide</td>
                         <td>2025-01-08 10:00 PM</td>
                     </tr>
+=======
+                        <th>Website Link</th>
+                        <th>Published</th>
+                        <th>Preview</th> <!-- New column for preview -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here by JavaScript -->
+>>>>>>> GenerateReports
                 </tbody>
             </table>
 
             <p>For more information on how your privacy is protected, refer to our <a href="#">Personal Information Collection Statement</a>.</p>
+<<<<<<< HEAD
+=======
+
+            <!-- "Take the Quiz!" Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="quiz.html">
+                    <button type="button" id="quiz-button">Take the Quiz!</button>
+                </a>
+            </div>
+>>>>>>> GenerateReports
         </div>
     </main>
 
     <footer>
+<<<<<<< HEAD
 
         <div class="pps"></div>
 
@@ -66,9 +99,50 @@
         </div>
 
 
+=======
+        <div class="pps"></div>
+        <div class="footer-links">
+            <a href="#">Terms and Conditions</a> | <a href="#">Privacy</a>
+        </div>
+>>>>>>> GenerateReports
         <div class="footer-logo">
             <a href="index.html"><img src="Images/CanadaLogo.jpg" alt="Canada Logo"></a>
         </div>
     </footer>
+<<<<<<< HEAD
+=======
+
+    <script>
+        // Fetch resources from the server and dynamically add them to the table
+        fetch('/resources')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector("#resources-table tbody");
+                data.forEach(resource => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${resource.resource_name}</td>
+                        <td>${resource.category}</td>
+                        <td><a href="${resource.website_link}" target="_blank">${resource.website_link}</a></td>
+                        <td>${resource.published}</td>
+                        <td>
+                            ${resource.website_link.endsWith('.mp4') ? `
+                                <video width="150" height="100" controls>
+                                    <source src="${resource.website_link}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            ` : resource.website_link.endsWith('.png') || resource.website_link.endsWith('.jpg') ? `
+                                <img src="${resource.website_link}" alt="Resource Image" style="width: 150px; height: auto;">
+                            ` : resource.website_link.endsWith('.pdf') ? `
+                                <embed src="${resource.website_link}" type="application/pdf" width="150" height="100">
+                            ` : 'No preview available'}
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching resources:', error));
+    </script>
+>>>>>>> GenerateReports
 </body>
 </html>

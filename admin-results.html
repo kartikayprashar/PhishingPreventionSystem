@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quiz Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="company-header">
+        <div class="logo">
+            <a href="index.html"><img src="Images/GOCLogo.png" alt="GOC Logo"></a>
+        </div>
+        <div class="company-name">
+            Canada Revenue Agency
+        </div>
+    </header>
+
+    <main>
+        <div class="rectangle">
+            <h1>Quiz Results</h1>
+            <table id="quiz-results">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Score</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Quiz results will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Fetch quiz results from the server
+        fetch('/quiz-results')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector('#quiz-results tbody');
+                data.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${result.username}</td>
+                        <td>${result.score}</td>
+                        <td>${result.timestamp}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching quiz results:', error);
+            });
+    </script>
+</body>
+</html>

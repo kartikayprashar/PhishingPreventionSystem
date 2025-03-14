@@ -35,7 +35,7 @@ app.post('/register', (req, res) => {
 
         bcrypt.hash(trimmedPassword, 10, (err, hash) => {
             if (err) return res.status(500).json({ error: "internal_error" });
-            db.run("INSERT INTO users (username, password) VALUES (?, ?)", [trimmedUsername, hash], function (err) {
+            db.run("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", [trimmedUsername, hash, 'user'], function (err) {
                 if (err) return res.status(500).json({ error: "internal_error" });
                 res.status(200).json({ success: true });
             });
@@ -53,7 +53,7 @@ app.post('/signin', (req, res) => {
         bcrypt.compare(password.trim(), row.password, (err, isMatch) => {
             if (err) return res.status(500).json({ error: "internal_error" });
             if (!isMatch) return res.status(200).json({ error: "invalid_password" });
-            res.status(200).json({ success: true });
+            res.status(200).json({ success: true, userId: row.id, role: row.role }); // Return userId and role
         });
     });
 });
@@ -92,6 +92,28 @@ app.get('/resources', (req, res) => {
         { resource_name: "Phishing Infographic", category: "Training", website_link: "http://localhost:3000/Resources/infographic.png", published: "2023-10-03" }
     ];
     res.status(200).json(resources);
+});
+
+// Save quiz results
+app.post('/save-quiz-result', (req, res) => {
+    const { userId, score } = req.body;
+
+    if (!userId || score === undefined) {
+        return res.status(400).json({ error: "missing_fields" });
+    }
+
+    db.run("INSERT INTO quiz_results (user_id, score) VALUES (?, ?)", [userId, score], function (err) {
+        if (err) return res.status(500).json({ error: "internal_error" });
+        res.status(200).json({ success: true });
+    });
+});
+
+// Fetch all quiz results (for admin)
+app.get('/quiz-results', (req, res) => {
+    db.all("SELECT quiz_results.*, users.username FROM quiz_results JOIN users ON quiz_results.user_id = users.id", [], (err, rows) => {
+        if (err) return res.status(500).json({ error: "internal_error" });
+        res.status(200).json(rows);
+    });
 });
 
 // Start the server

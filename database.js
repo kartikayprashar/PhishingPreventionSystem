@@ -4,14 +4,14 @@ const db = new sqlite3.Database("users.db");
 
 // Create the users table
 db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)");
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT DEFAULT 'user')");
 
     const saltRounds = 10;
 
     const users = [
         { username: "user1", password: "password1" },
         { username: "user2", password: "password2" },
-        { username: "admin", password: "adminpass" }
+        { username: "admin", password: "adminpass", role: "admin" }
     ];
 
     // Function to hash a password and insert the user
@@ -24,8 +24,8 @@ db.serialize(() => {
                 }
 
                 db.run(
-                    "INSERT INTO users (username, password) VALUES (?, ?)",
-                    [user.username, hashedPassword],
+                    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+                    [user.username, hashedPassword, user.role || 'user'],
                     (err) => {
                         if (err) {
                             reject(err);
@@ -68,6 +68,17 @@ db.serialize(() => {
             sender TEXT,
             subject TEXT,
             received TEXT
+        )
+    `);
+
+    // Create the quiz_results table
+    db.run(`
+        CREATE TABLE IF NOT EXISTS quiz_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            score INTEGER NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
         )
     `);
 

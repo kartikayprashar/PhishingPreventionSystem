@@ -44,7 +44,7 @@
             font-style: italic;
             color: #004c9b;
         }
-        .submit-button, .home-button {
+        .submit-button, .home-button, .view-results-button {
             display: block;
             width: 100%;
             padding: 10px;
@@ -58,7 +58,7 @@
             text-align: center;
             text-decoration: none;
         }
-        .submit-button:hover, .home-button:hover {
+        .submit-button:hover, .home-button:hover, .view-results-button:hover {
             background-color: #003366;
         }
     </style>
@@ -265,6 +265,9 @@
 
                 <!-- Back to Homepage Button -->
                 <a href="overview.html" class="home-button">Back to Homepage</a>
+
+                <!-- View All Results Button (Visible Only to Admins) -->
+                <button id="view-results-button" class="view-results-button" style="display: none;" onclick="window.location.href='admin-results.html'">View All Results</button>
             </div>
         </div>
     </main>
@@ -280,6 +283,12 @@
     </footer>
 
     <script>
+        // Check if the user is an admin and show the "View All Results" button
+        const role = localStorage.getItem('role');
+        if (role === 'admin') {
+            document.getElementById('view-results-button').style.display = 'block';
+        }
+
         // Correct answers and explanations
         const quizData = {
             q1: { answer: "B", explanation: "Phishing is a cyber attack where attackers try to steal sensitive information like passwords or credit card numbers by pretending to be a trustworthy entity." },
@@ -328,6 +337,31 @@
 
             // Show overall score
             alert(`You scored ${score} out of 10!`);
+
+            // Send the quiz result to the server
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                fetch('/save-quiz-result', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId, score }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Quiz result saved successfully.');
+                    } else {
+                        console.error('Failed to save quiz result.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving quiz result:', error);
+                });
+            } else {
+                console.error('User ID not found. Quiz result not saved.');
+            }
         }
     </script>
 </body>

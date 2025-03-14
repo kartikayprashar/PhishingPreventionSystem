@@ -29,6 +29,7 @@
                 <button type="submit">Sign In</button>
             </form>
             <p id="error-message" style="color: red;"></p> <!-- Error message placeholder -->
+            <p id="success-message" style="color: green;"></p> <!-- Success message placeholder -->
         </div>
     </main>
 
@@ -57,22 +58,40 @@
                 });
 
                 const result = await response.json();
+                console.log("Server response:", result); // Debugging: Log the server response
 
                 if (response.ok) {
                     if (result.error === "invalid_user") {
                         document.getElementById("error-message").textContent = "Invalid username.";
+                        document.getElementById("success-message").textContent = ""; // Clear success message
                     } else if (result.error === "invalid_password") {
                         document.getElementById("error-message").textContent = "Invalid password.";
+                        document.getElementById("success-message").textContent = ""; // Clear success message
                     } else {
-                        alert("Sign-in successful!");
-                        window.location.href = "overview.html"; // Redirect to overview.html
+                        // Store userId and role in localStorage
+                        localStorage.setItem('userId', result.userId);
+                        localStorage.setItem('role', result.role);
+
+                        // Display custom success message for admin users
+                        if (result.role === 'admin') {
+                            document.getElementById("success-message").textContent = "Login successful! You are logged in as an admin.";
+                        } else {
+                            document.getElementById("success-message").textContent = "Login successful!";
+                        }
+
+                        // Redirect to overview.html after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = "overview.html";
+                        }, 2000);
                     }
                 } else {
                     document.getElementById("error-message").textContent = "An error occurred. Please try again later.";
+                    document.getElementById("success-message").textContent = ""; // Clear success message
                 }
             } catch (error) {
                 console.error("Error during sign-in:", error);
                 document.getElementById("error-message").textContent = "An error occurred. Please try again later.";
+                document.getElementById("success-message").textContent = ""; // Clear success message
             }
         });
     </script>

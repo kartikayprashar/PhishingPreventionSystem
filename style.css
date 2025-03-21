@@ -126,3 +126,10 @@ h1, h2 {
     font-weight: bold;
     padding: 10px;
 }
+
+.company-name {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+}

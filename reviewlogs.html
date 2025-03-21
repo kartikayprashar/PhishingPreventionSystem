@@ -5,53 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Logs</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Additional styles for the Review Logs page */
-        .logs-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .logs-container h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .logs-container table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .logs-container table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        .logs-container th, td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        .logs-container th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-
-        .footer-links {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
-        }
-
-        .footer-links a {
-            margin: 0 10px;
-        }
-    </style>
 </head>
 <body>
     <header class="company-header">
@@ -72,8 +25,8 @@
     </header>
 
     <main>
-        <div class="logs-container">
-            <h1>Phishing Detection Logs</h1>
+        <div class="rectangle">
+            <div class="pps"><h1>Phishing Detection Logs</h1>
 
             <table class="phishing-table">
                 <thead>
@@ -90,8 +43,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
 
-            <table id="logsTable">
+            <table class="phishing-table" id="logsTable">
                 <thead>
                     <tr>
                         <th>Log ID</th>
@@ -104,8 +58,6 @@
                     <!-- Logs will be populated here dynamically -->
                 </tbody>
             </table>
-
-            <p>For more information on how your privacy is protected, refer to our <a href="#">Personal Information Collection Statement</a>.</p>
         </div>
     </main>
 

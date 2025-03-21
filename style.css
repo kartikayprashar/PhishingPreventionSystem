@@ -31,7 +31,7 @@
 
 .pps {
     text-align: center;
-    padding: 3%;
+    padding: 1%;
     border-bottom: 5px solid #38414d;
 }
 
@@ -100,4 +100,29 @@ h1, h2 {
     height: auto;
     display: block;
     margin: 0 auto;
+}
+
+.nav-bar {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.nav-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nav-bar ul li {
+    display: inline;
+}
+
+.nav-bar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
 }

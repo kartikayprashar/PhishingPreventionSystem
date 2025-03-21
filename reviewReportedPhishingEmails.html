@@ -12,13 +12,41 @@
             <a href="index.html"><img src="Images/GOCLogo.png" alt="GOC Logo"></a>
         </div>
         <div class="company-name">
-            Department of Phishing Prevention
-        </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="overview.html">Home</a></li>
+                <li><a href="reviewReportedPhishingEmails.html">Reports</a></li>
+                <li><a href="reviewlogs.html">Logs</a></li>
+                <li><a href="phishingPreventionEmployeeTraining.html">Training</a></li>
+                <li><a href="generateReports.html">Export Reports</a></li>
+            </ul>
+        </nav>
+    </div>
     </header>
 
     <main>
         <div class="rectangle">
-            <div class="pps"><h1>Reported Phishing Emails</h1></div>
+            <div class="pps"><h1>Reported Phishing Emails</h1>
+                <table class="phishing-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>This feature contains all the 
+                                flagged emails by the CRA employees. 
+                                Review each email for further 
+                                investigation and take appropriate 
+                                action.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+            </div>
+
+
 
             <table class="phishing-table" id="email-table">
                 <thead>
